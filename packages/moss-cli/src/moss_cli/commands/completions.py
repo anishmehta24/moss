@@ -42,15 +42,15 @@ def completions_command(
     try:
         # Prefer a public API when available.
         from typer.main import get_completion_script  # type: ignore[attr-defined]
-    except Exception:  # pragma: no cover
+    except ImportError:  # pragma: no cover
         try:
             from typer.completion import get_completion_script  # type: ignore
-        except Exception:  # pragma: no cover
+        except ImportError:  # pragma: no cover
             try:
                 from typer._completion_shared import (  # type: ignore
                     get_completion_script,
                 )
-            except Exception:  # pragma: no cover
+            except ImportError:  # pragma: no cover
                 output.print_error(_UNAVAILABLE, json_mode)
                 raise typer.Exit(1)
 
